@@ -1,7 +1,7 @@
 <?php
 class _auth extends Conectar
 {
-    public function sign_up($REQUEST)
+    public function sign_up_pds($REQUEST)
     {
         $db = parent::conexion();
         parent::set_names();
@@ -16,6 +16,23 @@ class _auth extends Conectar
         $sql->bindValue(5, $REQUEST['descripcion']);
         $sql->bindValue(6, $REQUEST['habilidades']);
         $sql->bindValue(7, $REQUEST['tipo_usuario_id']);
+        $resultado['estatus'] =  $sql->execute();
+        return $resultado;
+    }
+    
+    public function sign_up_cont($REQUEST)
+    {
+        $db = parent::conexion();
+        parent::set_names();
+        /* Query */
+        $sql = "INSERT INTO usuario (nombre, apellido, correo, password, tipo_usuario_id) VALUES (?,?,?,?,?)";
+
+        $sql = $db->prepare($sql);
+        $sql->bindValue(1, $REQUEST['nombre']);
+        $sql->bindValue(2, $REQUEST['apellido']);
+        $sql->bindValue(3, $REQUEST['correo']);
+        $sql->bindValue(4, $REQUEST['password']);
+        $sql->bindValue(5, $REQUEST['tipo_usuario_id']);
         $resultado['estatus'] =  $sql->execute();
         return $resultado;
     }
